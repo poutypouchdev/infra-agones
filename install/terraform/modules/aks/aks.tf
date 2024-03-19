@@ -28,10 +28,10 @@ resource "azurerm_kubernetes_cluster" "agones" {
 
   kubernetes_version = var.kubernetes_version
 
-// Required by Terraform. Put as 0 node count.
+// Default node has to be 1. Maybe can delete later or change to spot in Azure?
   default_node_pool {
     name                  = "default"
-    node_count            = 0
+    node_count            = 1
     vm_size               = var.system_vm_size
     enable_auto_scaling   = false
     enable_node_public_ip = var.enable_node_public_ip
