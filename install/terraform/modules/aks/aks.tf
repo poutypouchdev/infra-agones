@@ -28,10 +28,11 @@ resource "azurerm_kubernetes_cluster" "agones" {
 
   kubernetes_version = var.kubernetes_version
 
+// Required by Terraform. Put as 0 node count.
   default_node_pool {
     name                  = "default"
-    node_count            = 1
-    vm_size               = "Standard_D2_v2"
+    node_count            = 0
+    vm_size               = system_vm_size
     enable_auto_scaling   = false
     enable_node_public_ip = var.enable_node_public_ip
   }
@@ -48,7 +49,7 @@ resource "azurerm_kubernetes_cluster" "agones" {
 resource "azurerm_kubernetes_cluster_node_pool" "system" {
   name                  = "system"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-  vm_size               = "Standard_D2_v2"
+  vm_size               = system_vm_size
   node_count            = 1
   enable_auto_scaling   = false
   node_taints = [
@@ -59,25 +60,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "system" {
   }
 }
 
-resource "azurerm_kubernetes_cluster_node_pool" "metrics" {
-  name                  = "metrics"
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-  vm_size               = "Standard_D2_v2"
-  node_count            = 1
-  enable_auto_scaling   = false
-  node_taints = [
-    "agones.dev/agones-metrics=true:NoExecute"
-  ]
-  node_labels = {
-    "agones.dev/agones-metrics" : "true"
-  }
-}
-
-
 resource "azurerm_kubernetes_cluster_node_pool" "spotd2v2" {
   name                  = "spotd2v2"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-  vm_size               = "Standard_D2_v2"
+  vm_size               = "Standard_D2_v4"
   node_count            = 1
   enable_auto_scaling   = false
   priority          = "Spot"
@@ -102,9 +88,7 @@ resource "azurerm_network_security_rule" "gameserver" {
 
   depends_on = [
     azurerm_kubernetes_cluster.agones,
-    azurerm_kubernetes_cluster_node_pool.metrics,
     azurerm_kubernetes_cluster_node_pool.system,
-    azurerm_kubernetes_cluster_node_pool.spotd2v2
   ]
 
   # Ignore resource_group_name changes because of random case returned by AKS Api (MC_* or mc_*)
