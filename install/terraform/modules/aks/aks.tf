@@ -74,8 +74,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "metrics" {
 }
 
 
-resource "azurerm_kubernetes_cluster_node_pool" "SpotD2V2" {
-  name                  = "SpotD2V2"
+resource "azurerm_kubernetes_cluster_node_pool" "spotd2v2" {
+  name                  = "spotd2v2"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
   vm_size               = "Standard_D2_v2"
   node_count            = 1
@@ -104,7 +104,7 @@ resource "azurerm_network_security_rule" "gameserver" {
     azurerm_kubernetes_cluster.agones,
     azurerm_kubernetes_cluster_node_pool.metrics,
     azurerm_kubernetes_cluster_node_pool.system,
-    azurerm_kubernetes_cluster_node_pool.SpotD2V2
+    azurerm_kubernetes_cluster_node_pool.spotd2v2
   ]
 
   # Ignore resource_group_name changes because of random case returned by AKS Api (MC_* or mc_*)
