@@ -1,16 +1,3 @@
-# Copyright 2019 Google LLC All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 
 terraform {
@@ -43,9 +30,8 @@ resource "azurerm_kubernetes_cluster" "agones" {
 
   default_node_pool {
     name                  = "default"
-    node_count            = var.node_count
-    vm_size               = var.machine_type
-    os_disk_size_gb       = var.disk_size
+    node_count            = 1
+    vm_size               = "Standard_D2_v2"
     enable_auto_scaling   = false
     enable_node_public_ip = var.enable_node_public_ip
   }
@@ -62,9 +48,8 @@ resource "azurerm_kubernetes_cluster" "agones" {
 resource "azurerm_kubernetes_cluster_node_pool" "system" {
   name                  = "system"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-  vm_size               = var.machine_type
+  vm_size               = "Standard_D2_v2"
   node_count            = 1
-  os_disk_size_gb       = var.disk_size
   enable_auto_scaling   = false
   node_taints = [
     "agones.dev/agones-system=true:NoExecute"
@@ -77,9 +62,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "system" {
 resource "azurerm_kubernetes_cluster_node_pool" "metrics" {
   name                  = "metrics"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-  vm_size               = var.machine_type
+  vm_size               = "Standard_D2_v2"
   node_count            = 1
-  os_disk_size_gb       = var.disk_size
   enable_auto_scaling   = false
   node_taints = [
     "agones.dev/agones-metrics=true:NoExecute"
@@ -88,6 +72,18 @@ resource "azurerm_kubernetes_cluster_node_pool" "metrics" {
     "agones.dev/agones-metrics" : "true"
   }
 }
+
+
+resource "azurerm_kubernetes_cluster_node_pool" "SpotD2V2" {
+  name                  = "SpotD2V2"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
+  vm_size               = "Standard_D2_v2"
+  node_count            = 1
+  enable_auto_scaling   = false
+  priority          = "Spot"
+  eviction_policy   = "Delete"
+}
+
 
 resource "azurerm_network_security_rule" "gameserver" {
   name                       = "gameserver"
@@ -107,7 +103,8 @@ resource "azurerm_network_security_rule" "gameserver" {
   depends_on = [
     azurerm_kubernetes_cluster.agones,
     azurerm_kubernetes_cluster_node_pool.metrics,
-    azurerm_kubernetes_cluster_node_pool.system
+    azurerm_kubernetes_cluster_node_pool.system,
+    azurerm_kubernetes_cluster_node_pool.SpotD2V2
   ]
 
   # Ignore resource_group_name changes because of random case returned by AKS Api (MC_* or mc_*)
