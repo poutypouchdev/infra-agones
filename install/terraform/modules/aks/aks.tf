@@ -32,7 +32,7 @@ resource "azurerm_kubernetes_cluster" "agones" {
   default_node_pool {
     name                  = "default"
     node_count            = 0
-    vm_size               = system_vm_size
+    vm_size               = var.system_vm_size
     enable_auto_scaling   = false
     enable_node_public_ip = var.enable_node_public_ip
   }
@@ -49,7 +49,7 @@ resource "azurerm_kubernetes_cluster" "agones" {
 resource "azurerm_kubernetes_cluster_node_pool" "system" {
   name                  = "system"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-  vm_size               = system_vm_size
+  vm_size               = var.system_vm_size
   node_count            = 1
   enable_auto_scaling   = false
   node_taints = [
