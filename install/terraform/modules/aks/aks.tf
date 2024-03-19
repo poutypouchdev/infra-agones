@@ -68,6 +68,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "spotd2v2" {
   enable_auto_scaling   = false
   priority          = "Spot"
   eviction_policy   = "Delete"
+  spot_max_price    = 0.05
 }
 
 
