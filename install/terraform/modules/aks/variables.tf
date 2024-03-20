@@ -16,7 +16,7 @@ variable "kubernetes_version" {
 }
 
 variable "system_vm_size" {
-  default = "Standard_D2_v2"
+  default = "Standard_D2s_v4"
 }
 
 

@@ -59,11 +59,26 @@ resource "azurerm_kubernetes_cluster_node_pool" "system" {
     "agones.dev/agones-system" : "true"
   }
 }
+/**
+TESTING:
+Standard_B2s
+Standard_B2s_v2
 
-resource "azurerm_kubernetes_cluster_node_pool" "spotd2v2" {
-  name                  = "spotd2v2"
+Standard_D2s_v4
+Standard_D2as_v4
+Standard_D2ds_v4
+
+Standard_D2s_v3
+
+PRODUCTION:
+
+*/
+
+// All LOWER CASE NAMES
+resource "azurerm_kubernetes_cluster_node_pool" "b2s" {
+  name                  = "b2s"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-  vm_size               = "Standard_D2_v4"
+  vm_size               = "Standard_B2s"
   node_count            = 1
   enable_auto_scaling   = false
   priority          = "Spot"
@@ -71,6 +86,27 @@ resource "azurerm_kubernetes_cluster_node_pool" "spotd2v2" {
   spot_max_price    = 0.05
 }
 
+resource "azurerm_kubernetes_cluster_node_pool" "b2sv2" {
+  name                  = "b2sv2"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
+  vm_size               = "Standard_B2s_v2"
+  node_count            = 1
+  enable_auto_scaling   = false
+  priority          = "Spot"
+  eviction_policy   = "Delete"
+  spot_max_price    = 0.05
+}
+
+resource "azurerm_kubernetes_cluster_node_pool" "d2sv3" {
+  name                  = "d2sv3"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
+  vm_size               = "Standard_D2s_v3"
+  node_count            = 1
+  enable_auto_scaling   = false
+  priority          = "Spot"
+  eviction_policy   = "Delete"
+  spot_max_price    = 0.05
+}
 
 resource "azurerm_network_security_rule" "gameserver" {
   name                       = "gameserver"
