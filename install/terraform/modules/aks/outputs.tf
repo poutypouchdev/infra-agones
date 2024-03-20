@@ -1,7 +1,6 @@
 
 output "cluster_ca_certificate" {
-  value = base64decode(azurerm_kubernetes_cluster.agones.kube_config.0.cluster_ca_certificate)
-  sensitive = true
+  value = nonsensitive(base64decode(azurerm_kubernetes_cluster.agones.kube_config.0.cluster_ca_certificate))
   depends_on = [
     # Helm would be invoked only after all node pools would be created
     # This way taints and tolerations for Agones controller would work properly
@@ -18,11 +17,9 @@ output "kube_config" {
 }
 
 output "host" {
-  value = azurerm_kubernetes_cluster.agones.kube_config.0.host
-  sensitive = true
+  value = nonsensitive(azurerm_kubernetes_cluster.agones.kube_config.0.host)
 }
 
 output "token" {
-  value = azurerm_kubernetes_cluster.agones.kube_config.0.password
-  sensitive = true
+  value = nonsensitive(azurerm_kubernetes_cluster.agones.kube_config.0.password)
 }
