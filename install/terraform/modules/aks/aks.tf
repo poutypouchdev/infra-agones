@@ -79,7 +79,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "b2s" {
   name                  = "b2s"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
   vm_size               = "Standard_B2s"
-  node_count            = 1
+  node_count            = 0
   enable_auto_scaling   = false
   priority          = "Spot"
   eviction_policy   = "Delete"
@@ -90,7 +90,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "b2sv2" {
   name                  = "b2sv2"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
   vm_size               = "Standard_B2s_v2"
-  node_count            = 1
+  node_count            = 0
   enable_auto_scaling   = false
   priority          = "Spot"
   eviction_policy   = "Delete"
@@ -101,12 +101,14 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2sv3" {
   name                  = "d2sv3"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
   vm_size               = "Standard_D2s_v3"
-  node_count            = 1
+  node_count            = 0
   enable_auto_scaling   = false
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
 }
+
+
 
 resource "azurerm_network_security_rule" "gameserver" {
   name                       = "gameserver"
