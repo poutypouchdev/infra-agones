@@ -1,0 +1,31 @@
+apiVersion: agones.dev/v1
+kind: Fleet
+metadata:
+  name: vs-game-server-fleet
+spec:
+  replicas: 1
+  scheduling: Packed
+
+  # Not sure which strategy to use: https://agones.dev/site/docs/guides/fleet-updates/
+  #strategy:
+    #type: Recreate
+
+  template:
+    spec:
+      ports:
+        - name: default
+          containerPort: 7777
+
+      # GameServer specification
+      template:
+        spec:
+          containers:
+            - name: vs-game-server
+              image: poutypouchgames.azurecr.io/vs-game:latest #us-docker.pkg.dev/agones-images/examples/simple-game-server:0.27
+              resources:
+                requests:
+                  memory: 3500Mi
+                  cpu: 985m # Side car needs 30m. At least 2 pods on a machine.
+                limits:
+                  memory: 3500Mi
+                  cpu: 1000m 
