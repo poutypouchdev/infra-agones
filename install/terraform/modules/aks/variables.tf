@@ -7,18 +7,28 @@ variable "client_id" {
 variable "client_secret" {
 }
 
+variable "docker_registry_username" { 
+}
+
+variable "docker_registry_password" {
+  
+}
+
 variable "enable_node_public_ip" {
   default = true
+}
+
+variable "min_node_count" {
+  default = 0
+}
+
+variable "max_node_count" {
+  default = 1
 }
 
 variable "kubernetes_version" {
   default = "1.28"
 }
-
-variable "system_vm_size" {
-  default = "Standard_D2s_v4"
-}
-
 
 // Unused
 variable "resource_group_location" {
@@ -28,8 +38,3 @@ variable "resource_group_location" {
 variable "resource_group_name" {
   default = "test"
 }
-
-variable "cluster_name" {
-  default = "test"
-}
-
