@@ -21,7 +21,7 @@ spec:
         spec:
           containers:
             - name: vs-game-server
-              image: poutypouchgames-acr-centralus.azurecr.io/vs-server:latest #us-docker.pkg.dev/agones-images/examples/simple-game-server:0.27
+              image: poutypouchgamesacrcentralus.azurecr.io/vs-server:latest #us-docker.pkg.dev/agones-images/examples/simple-game-server:0.27
               resources:
                 requests:
                   memory: 1500Mi
