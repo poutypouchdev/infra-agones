@@ -11,7 +11,6 @@ variable "docker_registry_username" {
 }
 
 variable "docker_registry_password" {
-  
 }
 
 variable "enable_node_public_ip" {

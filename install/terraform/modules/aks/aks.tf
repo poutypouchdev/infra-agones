@@ -497,7 +497,7 @@ resource "azurerm_linux_web_app" "matchmaker" {
   site_config {
     application_stack {
       docker_image_name = "matchmaker:latest"
-      docker_registry_url = "https://poutypouchgames-acr-centralus.azurecr.io"
+      docker_registry_url = "https://poutypouchgamesacrcentralus.azurecr.io"
       docker_registry_username = var.docker_registry_username
       docker_registry_password = var.docker_registry_password
     }
@@ -528,12 +528,29 @@ resource "azurerm_linux_web_app" "servicediscovery" {
   site_config {
     application_stack {
       docker_image_name = "servicediscovery:latest"
-      docker_registry_url = "https://poutypouchgames-acr-centralus.azurecr.io"
+      docker_registry_url = "https://poutypouchgamesacrcentralus.azurecr.io"
       docker_registry_username = var.docker_registry_username
       docker_registry_password = var.docker_registry_password
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /**
