@@ -63,11 +63,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "system" {
     "agones.dev/agones-system" : "true"
   }
 }
-/**
-VMs:
-
-
-*/
 
 ################ AGONES NODE POOLS ###################
 // All LOWER CASE NAMES
@@ -502,6 +497,37 @@ resource "azurerm_linux_web_app" "matchmaker" {
   site_config {
     application_stack {
       docker_image_name = "matchmaker:latest"
+      docker_registry_url = "https://poutypouchgames-acr-centralus.azurecr.io"
+      docker_registry_username = var.docker_registry_username
+      docker_registry_password = var.docker_registry_password
+    }
+  }
+}
+
+################ SERVICE DISCOVERY ###################
+
+resource "azurerm_resource_group" "servicediscovery" {
+  location = "Central US"
+  name     = "rg-sd-central-us"
+}
+
+resource "azurerm_service_plan" "servicediscovery" {
+  name                = "serviceplan-servicediscovery-${var.resource_group_name}"
+  resource_group_name = azurerm_resource_group.servicediscovery.name
+  location            = azurerm_resource_group.servicediscovery.location
+  os_type             = "Linux"
+  sku_name            = "B1"
+}
+
+resource "azurerm_linux_web_app" "servicediscovery" {
+  name                = "poutypouchgames-servicediscovery-${var.resource_group_name}"
+  resource_group_name = azurerm_resource_group.servicediscovery.name
+  location            = azurerm_service_plan.servicediscovery.location
+  service_plan_id     = azurerm_service_plan.servicediscovery.id
+
+  site_config {
+    application_stack {
+      docker_image_name = "servicediscovery:latest"
       docker_registry_url = "https://poutypouchgames-acr-centralus.azurecr.io"
       docker_registry_username = var.docker_registry_username
       docker_registry_password = var.docker_registry_password
