@@ -7,8 +7,8 @@ spec:
   scheduling: Packed
 
   # Not sure which strategy to use: https://agones.dev/site/docs/guides/fleet-updates/
-  #strategy:
-    #type: Recreate
+  strategy:
+    type: Recreate
 
   template:
     spec:
@@ -21,7 +21,7 @@ spec:
         spec:
           containers:
             - name: vs-game-server
-              image: poutypouchgamesacrcentralus.azurecr.io/vs-server:latest #us-docker.pkg.dev/agones-images/examples/simple-game-server:0.27
+              image: poutypouchgamesacrcentralus.azurecr.io/vs-server:0.1.0 #us-docker.pkg.dev/agones-images/examples/simple-game-server:0.27
               resources:
                 requests:
                   memory: 1500Mi
