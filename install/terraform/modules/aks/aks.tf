@@ -208,6 +208,17 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2ps5" {
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
 }
+resource "azurerm_kubernetes_cluster_node_pool" "e2pds5" {
+  name                  = "e2pds5"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
+  vm_size               = "Standard_E2pds_v5"
+  enable_node_public_ip = var.enable_node_public_ip
+  node_count            = var.min_node_count
+  enable_auto_scaling   = false
+  priority          = "Spot"
+  eviction_policy   = "Delete"
+  spot_max_price    = 0.05
+}
 resource "azurerm_kubernetes_cluster_node_pool" "e2d5" {
   name                  = "e2d5"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
@@ -463,12 +474,12 @@ resource "azurerm_linux_web_app" "matchmaker" {
 ################ SERVICE DISCOVERY ###################
 
 resource "azurerm_resource_group" "servicediscovery" {
-  location = "Central US"
+  location = "Central US"   # WATCH OUT! If changing this, it's also hard coded below. So we only get one.
   name     = "rg-sd-central-us"
 }
 
 resource "azurerm_service_plan" "servicediscovery" {
-  name                = "serviceplan-servicediscovery-${azurerm_resource_group.servicediscovery.name}"
+  name                = "serviceplan-servicediscovery-central-us"
   resource_group_name = azurerm_resource_group.servicediscovery.name
   location            = azurerm_resource_group.servicediscovery.location
   os_type             = "Linux"
@@ -476,7 +487,7 @@ resource "azurerm_service_plan" "servicediscovery" {
 }
 
 resource "azurerm_linux_web_app" "servicediscovery" {
-  name                = "poutypouchgames-servicediscovery-${azurerm_resource_group.servicediscovery.name}"
+  name                = "poutypouchgames-servicediscovery-central-us"
   resource_group_name = azurerm_resource_group.servicediscovery.name
   location            = azurerm_service_plan.servicediscovery.location
   service_plan_id     = azurerm_service_plan.servicediscovery.id
