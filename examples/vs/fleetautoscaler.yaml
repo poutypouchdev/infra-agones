@@ -9,8 +9,8 @@ spec:
     type: Buffer # or can be Webhook
     buffer:
       # Size of a buffer of "ready" game server instances
-      bufferSize: 1
-      minReplicas: 1
+      bufferSize: 5
+      minReplicas: 5
       maxReplicas: 10
 
   sync:
