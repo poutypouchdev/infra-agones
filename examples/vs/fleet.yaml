@@ -21,7 +21,7 @@ spec:
         spec:
           containers:
             - name: vs-game-server
-              image: poutypouchgamesacrcentralus.azurecr.io/vs-server:0.1.2 
+              image: poutypouchgamesacrcentralus.azurecr.io/vs-server:0.1.3
               resources:
                 requests:
                   memory: 1500Mi
