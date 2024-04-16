@@ -4,7 +4,36 @@ output "cluster_ca_certificate" {
   depends_on = [
     # Helm would be invoked only after all node pools would be created
     # This way taints and tolerations for Agones controller would work properly
-    azurerm_kubernetes_cluster_node_pool.system
+    azurerm_kubernetes_cluster_node_pool.d2as5,
+    azurerm_kubernetes_cluster_node_pool.d2ads5,
+    azurerm_kubernetes_cluster_node_pool.d2ps5,
+    azurerm_kubernetes_cluster_node_pool.d2pds5,
+    azurerm_kubernetes_cluster_node_pool.d2pls5,
+    azurerm_kubernetes_cluster_node_pool.d2plds5,
+    azurerm_kubernetes_cluster_node_pool.d2d5,
+    azurerm_kubernetes_cluster_node_pool.d2ds5,
+    azurerm_kubernetes_cluster_node_pool.d25,
+    azurerm_kubernetes_cluster_node_pool.d2s5,
+    azurerm_kubernetes_cluster_node_pool.e2as5,
+    azurerm_kubernetes_cluster_node_pool.e2ads5,
+    azurerm_kubernetes_cluster_node_pool.e2ps5,
+    azurerm_kubernetes_cluster_node_pool.e2d5,
+    azurerm_kubernetes_cluster_node_pool.e2ds5,
+    azurerm_kubernetes_cluster_node_pool.e25,
+    azurerm_kubernetes_cluster_node_pool.e2s5,
+    azurerm_kubernetes_cluster_node_pool.f2s2,
+    azurerm_kubernetes_cluster_node_pool.d2as4,
+    azurerm_kubernetes_cluster_node_pool.d2a4,
+    azurerm_kubernetes_cluster_node_pool.d2ds4,
+    azurerm_kubernetes_cluster_node_pool.d2d4,
+    azurerm_kubernetes_cluster_node_pool.d2s4,
+    azurerm_kubernetes_cluster_node_pool.d24,
+    azurerm_kubernetes_cluster_node_pool.e2as4,
+    azurerm_kubernetes_cluster_node_pool.e2a4,
+    azurerm_kubernetes_cluster_node_pool.e2ds4,
+    azurerm_kubernetes_cluster_node_pool.e2d4,
+    azurerm_kubernetes_cluster_node_pool.e2s4,
+    azurerm_kubernetes_cluster_node_pool.e24,
   ]
 }
 

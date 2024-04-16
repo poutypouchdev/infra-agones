@@ -213,18 +213,18 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2ps5" {
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
 }
-resource "azurerm_kubernetes_cluster_node_pool" "e2pds5" {
-  name                  = "e2pds5"
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-  vm_size               = "Standard_E2pds_v5"
-  enable_node_public_ip = var.enable_node_public_ip
-  node_count            = var.min_node_count
-  max_count             = var.max_node_count
-  enable_auto_scaling   = true
-  priority          = "Spot"
-  eviction_policy   = "Delete"
-  spot_max_price    = 0.05
-}
+# resource "azurerm_kubernetes_cluster_node_pool" "e2pds5" {
+#   name                  = "e2pds5"
+#   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
+#   vm_size               = "Standard_E2pds_v5"
+#   enable_node_public_ip = var.enable_node_public_ip
+#   node_count            = var.min_node_count
+#   max_count             = var.max_node_count
+#   enable_auto_scaling   = true
+#   priority          = "Spot"
+#   eviction_policy   = "Delete"
+#   spot_max_price    = 0.05
+# }
 resource "azurerm_kubernetes_cluster_node_pool" "e2d5" {
   name                  = "e2d5"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
@@ -451,7 +451,36 @@ resource "azurerm_network_security_rule" "gameserver" {
 
   depends_on = [
     azurerm_kubernetes_cluster.agones,
-    azurerm_kubernetes_cluster_node_pool.system,
+    azurerm_kubernetes_cluster_node_pool.d2as5,
+    azurerm_kubernetes_cluster_node_pool.d2ads5,
+    azurerm_kubernetes_cluster_node_pool.d2ps5,
+    azurerm_kubernetes_cluster_node_pool.d2pds5,
+    azurerm_kubernetes_cluster_node_pool.d2pls5,
+    azurerm_kubernetes_cluster_node_pool.d2plds5,
+    azurerm_kubernetes_cluster_node_pool.d2d5,
+    azurerm_kubernetes_cluster_node_pool.d2ds5,
+    azurerm_kubernetes_cluster_node_pool.d25,
+    azurerm_kubernetes_cluster_node_pool.d2s5,
+    azurerm_kubernetes_cluster_node_pool.e2as5,
+    azurerm_kubernetes_cluster_node_pool.e2ads5,
+    azurerm_kubernetes_cluster_node_pool.e2ps5,
+    azurerm_kubernetes_cluster_node_pool.e2d5,
+    azurerm_kubernetes_cluster_node_pool.e2ds5,
+    azurerm_kubernetes_cluster_node_pool.e25,
+    azurerm_kubernetes_cluster_node_pool.e2s5,
+    azurerm_kubernetes_cluster_node_pool.f2s2,
+    azurerm_kubernetes_cluster_node_pool.d2as4,
+    azurerm_kubernetes_cluster_node_pool.d2a4,
+    azurerm_kubernetes_cluster_node_pool.d2ds4,
+    azurerm_kubernetes_cluster_node_pool.d2d4,
+    azurerm_kubernetes_cluster_node_pool.d2s4,
+    azurerm_kubernetes_cluster_node_pool.d24,
+    azurerm_kubernetes_cluster_node_pool.e2as4,
+    azurerm_kubernetes_cluster_node_pool.e2a4,
+    azurerm_kubernetes_cluster_node_pool.e2ds4,
+    azurerm_kubernetes_cluster_node_pool.e2d4,
+    azurerm_kubernetes_cluster_node_pool.e2s4,
+    azurerm_kubernetes_cluster_node_pool.e24,
   ]
 
   # Ignore resource_group_name changes because of random case returned by AKS Api (MC_* or mc_*)
