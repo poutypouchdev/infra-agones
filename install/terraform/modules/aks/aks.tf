@@ -30,19 +30,13 @@ resource "azurerm_kubernetes_cluster" "agones" {
 
   kubernetes_version = var.kubernetes_version
 
+  // Default node has to be 1, can't be SPOT, and can't have a taint, which seems to be required for Agones.
   default_node_pool {
-    name                  = "system"
+    name                  = "default"
     node_count            = 1
-    vm_size               = "Standard_D2as_v4"
+    vm_size               = "Standard_D2s_v4"
     enable_auto_scaling   = false
     enable_node_public_ip = var.enable_node_public_ip
-    # node_taints = [
-    #   "agones.dev/agones-system=true:NoExecute"
-    # ]
-    node_labels = {
-      "agones.dev/agones-system" : "true"
-    }
-
   }
 
   service_principal {
@@ -54,7 +48,22 @@ resource "azurerm_kubernetes_cluster" "agones" {
   }
 }
 
-################ AGONES NODE POOLS ###################
+// Run Agones on a User node pool instead.
+resource "azurerm_kubernetes_cluster_node_pool" "system" {
+  name                  = "system"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
+  vm_size               = "Standard_B2s"
+  node_count            = 1
+  enable_auto_scaling   = false
+  node_taints = [
+    "agones.dev/agones-system=true:NoExecute"
+  ]
+  node_labels = {
+    "agones.dev/agones-system" : "true"
+  }
+}
+
+################ Game Server NODE POOLS ###################
 // All LOWER CASE NAMES
 
 resource "azurerm_kubernetes_cluster_node_pool" "d2as5" {
@@ -451,6 +460,7 @@ resource "azurerm_network_security_rule" "gameserver" {
 
   depends_on = [
     azurerm_kubernetes_cluster.agones,
+    azurerm_kubernetes_cluster_node_pool.system,
     azurerm_kubernetes_cluster_node_pool.d2as5,
     azurerm_kubernetes_cluster_node_pool.d2ads5,
     azurerm_kubernetes_cluster_node_pool.d2ps5,
