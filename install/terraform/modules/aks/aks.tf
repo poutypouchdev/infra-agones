@@ -33,12 +33,12 @@ resource "azurerm_kubernetes_cluster" "agones" {
   default_node_pool {
     name                  = "system"
     node_count            = 1
-    vm_size               = "Standard_D2as_v5"
+    vm_size               = "Standard_D2as_v4"
     enable_auto_scaling   = false
     enable_node_public_ip = var.enable_node_public_ip
-    # node_taints = [
-    #   "agones.dev/agones-system=true:NoExecute"
-    # ]
+    node_taints = [
+      "CriticalAddonsOnly=true:NoSchedule"
+    ]
     node_labels = {
       "agones.dev/agones-system" : "true"
     }
