@@ -21,6 +21,11 @@ variable "min_node_count" {
   default = 0
 }
 
+variable "max_node_count" {
+  default = 1
+}
+
+
 variable "kubernetes_version" {
   default = "1.28"
 }

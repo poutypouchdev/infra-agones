@@ -30,13 +30,19 @@ resource "azurerm_kubernetes_cluster" "agones" {
 
   kubernetes_version = var.kubernetes_version
 
-// Default node has to be 1 by terraform?. Maybe can delete later or change to spot in Azure?
   default_node_pool {
-    name                  = "default"
+    name                  = "system"
     node_count            = 1
-    vm_size               = "Standard_D2s_v4"
+    vm_size               = "Standard_D2as_v5"
     enable_auto_scaling   = false
     enable_node_public_ip = var.enable_node_public_ip
+    node_taints = [
+      "agones.dev/agones-system=true:NoExecute"
+    ]
+    node_labels = {
+      "agones.dev/agones-system" : "true"
+    }
+
   }
 
   service_principal {
@@ -45,20 +51,6 @@ resource "azurerm_kubernetes_cluster" "agones" {
   }
   tags = {
     Environment = "Production"
-  }
-}
-
-resource "azurerm_kubernetes_cluster_node_pool" "system" {
-  name                  = "system"
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-  vm_size               = "Standard_B2s"
-  node_count            = 1
-  enable_auto_scaling   = false
-  node_taints = [
-    "agones.dev/agones-system=true:NoExecute"
-  ]
-  node_labels = {
-    "agones.dev/agones-system" : "true"
   }
 }
 
@@ -71,7 +63,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2as5" {
   vm_size               = "Standard_D2as_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -82,7 +75,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2ads5" {
   vm_size               = "Standard_D2ads_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -93,7 +87,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2ps5" {
   vm_size               = "Standard_D2ps_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -104,7 +99,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2pds5" {
   vm_size               = "Standard_D2pds_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -115,7 +111,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2pls5" {
   vm_size               = "Standard_D2pls_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -126,7 +123,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2plds5" {
   vm_size               = "Standard_D2plds_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -137,7 +135,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2d5" {
   vm_size               = "Standard_D2d_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -148,7 +147,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2ds5" {
   vm_size               = "Standard_D2ds_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -159,7 +159,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d25" {
   vm_size               = "Standard_D2_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -170,7 +171,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2s5" {
   vm_size               = "Standard_D2s_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -181,7 +183,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2as5" {
   vm_size               = "Standard_E2as_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -192,7 +195,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2ads5" {
   vm_size               = "Standard_E2ads_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -203,7 +207,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2ps5" {
   vm_size               = "Standard_E2ps_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -214,7 +219,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2pds5" {
   vm_size               = "Standard_E2pds_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -225,7 +231,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2d5" {
   vm_size               = "Standard_E2d_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -236,7 +243,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2ds5" {
   vm_size               = "Standard_E2ds_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -247,7 +255,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "e25" {
   vm_size               = "Standard_E2_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -258,7 +267,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2s5" {
   vm_size               = "Standard_E2s_v5"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -269,7 +279,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "f2s2" {
   vm_size               = "Standard_F2s_v2"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -280,7 +291,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2as4" {
   vm_size               = "Standard_D2as_v4"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -291,7 +303,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2a4" {
   vm_size               = "Standard_D2a_v4"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -302,7 +315,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2ds4" {
   vm_size               = "Standard_D2ds_v4"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -313,7 +327,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2d4" {
   vm_size               = "Standard_D2d_v4"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -324,7 +339,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2s4" {
   vm_size               = "Standard_D2s_v4"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -335,7 +351,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "d24" {
   vm_size               = "Standard_D2_v4"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -346,7 +363,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2as4" {
   vm_size               = "Standard_E2as_v4"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -357,7 +375,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2a4" {
   vm_size               = "Standard_E2a_v4"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -368,7 +387,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2ds4" {
   vm_size               = "Standard_E2ds_v4"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -379,7 +399,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2d4" {
   vm_size               = "Standard_E2d_v4"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -390,7 +411,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2s4" {
   vm_size               = "Standard_E2s_v4"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
@@ -401,7 +423,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "e24" {
   vm_size               = "Standard_E2_v4"
   enable_node_public_ip = var.enable_node_public_ip
   node_count            = var.min_node_count
-  enable_auto_scaling   = false
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
   priority          = "Spot"
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
