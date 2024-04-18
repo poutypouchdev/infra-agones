@@ -20,8 +20,10 @@ spec:
       template:
         spec:
           tolerations:
-          - key: "kubernetes.azure.com/scalesetpriority"
-            effect: "spot"
+          - key: kubernetes.azure.com/scalesetpriority
+            operator: Equal
+            value: 'spot'
+            effect: NoExecute
 
           containers:
             - name: vs-game-server
