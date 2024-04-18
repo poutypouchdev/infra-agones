@@ -5,10 +5,6 @@ metadata:
 spec:
   replicas: 1
   scheduling: Packed
-  
-  tolerations:
-  - key: "kubernetes.azure.com/scalesetpriority"
-    effect: "spot"
 
   # Not sure which strategy to use: https://agones.dev/site/docs/guides/fleet-updates/
   strategy:
@@ -20,9 +16,13 @@ spec:
         - name: default
           containerPort: 7777
 
-      # GameServer specification
+      # The GameServer's Pod template
       template:
         spec:
+          tolerations:
+          - key: "kubernetes.azure.com/scalesetpriority"
+            effect: "spot"
+
           containers:
             - name: vs-game-server
               image: poutypouchgamesacrcentralus.azurecr.io/vs-server:0.1.7
