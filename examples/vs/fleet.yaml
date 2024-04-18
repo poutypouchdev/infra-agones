@@ -23,7 +23,7 @@ spec:
           - key: kubernetes.azure.com/scalesetpriority
             operator: Equal
             value: 'spot'
-            effect: NoExecute
+            effect: NoSchedule
 
           containers:
             - name: vs-game-server
