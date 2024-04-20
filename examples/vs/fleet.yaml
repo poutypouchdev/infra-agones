@@ -3,7 +3,7 @@ kind: Fleet
 metadata:
   name: vs-game-server-fleet
 spec:
-  replicas: 1
+  replicas: 2
   scheduling: Packed
 
   # Not sure which strategy to use: https://agones.dev/site/docs/guides/fleet-updates/
@@ -27,10 +27,10 @@ spec:
 
           containers:
             - name: vs-game-server
-              image: poutypouchgamesacrcentralus.azurecr.io/vs-server:0.1.7
+              image: poutypouchgamesacrcentralus.azurecr.io/vs-server:0.1.8
               resources:
                 requests:
-                  memory: 500Mi
+                  memory: 1000Mi
                   cpu: 950m # Side car needs 30m. At least 2 pods on a machine.
                 limits:
                   memory: 2000Mi
