@@ -90,54 +90,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "d2ads5" {
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
 }
-resource "azurerm_kubernetes_cluster_node_pool" "d2ps5" {
-  name                  = "d2ps5"
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-  vm_size               = "Standard_D2ps_v5"
-  enable_node_public_ip = var.enable_node_public_ip
-  node_count            = var.min_node_count
-  max_count             = var.max_node_count
-  enable_auto_scaling   = true
-  priority          = "Spot"
-  eviction_policy   = "Delete"
-  spot_max_price    = 0.05
-}
-resource "azurerm_kubernetes_cluster_node_pool" "d2pds5" {
-  name                  = "d2pds5"
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-  vm_size               = "Standard_D2pds_v5"
-  enable_node_public_ip = var.enable_node_public_ip
-  node_count            = var.min_node_count
-  max_count             = var.max_node_count
-  enable_auto_scaling   = true
-  priority          = "Spot"
-  eviction_policy   = "Delete"
-  spot_max_price    = 0.05
-}
-resource "azurerm_kubernetes_cluster_node_pool" "d2pls5" {
-  name                  = "d2pls5"
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-  vm_size               = "Standard_D2pls_v5"
-  enable_node_public_ip = var.enable_node_public_ip
-  node_count            = var.min_node_count
-  max_count             = var.max_node_count
-  enable_auto_scaling   = true
-  priority          = "Spot"
-  eviction_policy   = "Delete"
-  spot_max_price    = 0.05
-}
-resource "azurerm_kubernetes_cluster_node_pool" "d2plds5" {
-  name                  = "d2plds5"
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-  vm_size               = "Standard_D2plds_v5"
-  enable_node_public_ip = var.enable_node_public_ip
-  node_count            = var.min_node_count
-  max_count             = var.max_node_count
-  enable_auto_scaling   = true
-  priority          = "Spot"
-  eviction_policy   = "Delete"
-  spot_max_price    = 0.05
-}
 resource "azurerm_kubernetes_cluster_node_pool" "d2d5" {
   name                  = "d2d5"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
@@ -210,30 +162,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "e2ads5" {
   eviction_policy   = "Delete"
   spot_max_price    = 0.05
 }
-resource "azurerm_kubernetes_cluster_node_pool" "e2ps5" {
-  name                  = "e2ps5"
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-  vm_size               = "Standard_E2ps_v5"
-  enable_node_public_ip = var.enable_node_public_ip
-  node_count            = var.min_node_count
-  max_count             = var.max_node_count
-  enable_auto_scaling   = true
-  priority          = "Spot"
-  eviction_policy   = "Delete"
-  spot_max_price    = 0.05
-}
-# resource "azurerm_kubernetes_cluster_node_pool" "e2pds5" {
-#   name                  = "e2pds5"
-#   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
-#   vm_size               = "Standard_E2pds_v5"
-#   enable_node_public_ip = var.enable_node_public_ip
-#   node_count            = var.min_node_count
-#   max_count             = var.max_node_count
-#   enable_auto_scaling   = true
-#   priority          = "Spot"
-#   eviction_policy   = "Delete"
-#   spot_max_price    = 0.05
-# }
 resource "azurerm_kubernetes_cluster_node_pool" "e2d5" {
   name                  = "e2d5"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
@@ -463,17 +391,12 @@ resource "azurerm_network_security_rule" "gameserver" {
     azurerm_kubernetes_cluster_node_pool.system,
     azurerm_kubernetes_cluster_node_pool.d2as5,
     azurerm_kubernetes_cluster_node_pool.d2ads5,
-    azurerm_kubernetes_cluster_node_pool.d2ps5,
-    azurerm_kubernetes_cluster_node_pool.d2pds5,
-    azurerm_kubernetes_cluster_node_pool.d2pls5,
-    azurerm_kubernetes_cluster_node_pool.d2plds5,
     azurerm_kubernetes_cluster_node_pool.d2d5,
     azurerm_kubernetes_cluster_node_pool.d2ds5,
     azurerm_kubernetes_cluster_node_pool.d25,
     azurerm_kubernetes_cluster_node_pool.d2s5,
     azurerm_kubernetes_cluster_node_pool.e2as5,
     azurerm_kubernetes_cluster_node_pool.e2ads5,
-    azurerm_kubernetes_cluster_node_pool.e2ps5,
     azurerm_kubernetes_cluster_node_pool.e2d5,
     azurerm_kubernetes_cluster_node_pool.e2ds5,
     azurerm_kubernetes_cluster_node_pool.e25,
@@ -713,4 +636,82 @@ F4      14/mo
 F1s      4/mo    2.3 GHz Intel
 F2s      7/mo
 F4s      14/mo
+
+
+
+Ampere Arm
+resource "azurerm_kubernetes_cluster_node_pool" "d2ps5" {
+  name                  = "d2ps5"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
+  vm_size               = "Standard_D2ps_v5"
+  enable_node_public_ip = var.enable_node_public_ip
+  node_count            = var.min_node_count
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
+  priority          = "Spot"
+  eviction_policy   = "Delete"
+  spot_max_price    = 0.05
+}
+resource "azurerm_kubernetes_cluster_node_pool" "d2pds5" {
+  name                  = "d2pds5"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
+  vm_size               = "Standard_D2pds_v5"
+  enable_node_public_ip = var.enable_node_public_ip
+  node_count            = var.min_node_count
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
+  priority          = "Spot"
+  eviction_policy   = "Delete"
+  spot_max_price    = 0.05
+}
+resource "azurerm_kubernetes_cluster_node_pool" "d2pls5" {
+  name                  = "d2pls5"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
+  vm_size               = "Standard_D2pls_v5"
+  enable_node_public_ip = var.enable_node_public_ip
+  node_count            = var.min_node_count
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
+  priority          = "Spot"
+  eviction_policy   = "Delete"
+  spot_max_price    = 0.05
+}
+resource "azurerm_kubernetes_cluster_node_pool" "d2plds5" {
+  name                  = "d2plds5"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
+  vm_size               = "Standard_D2plds_v5"
+  enable_node_public_ip = var.enable_node_public_ip
+  node_count            = var.min_node_count
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
+  priority          = "Spot"
+  eviction_policy   = "Delete"
+  spot_max_price    = 0.05
+}
+resource "azurerm_kubernetes_cluster_node_pool" "e2ps5" {
+  name                  = "e2ps5"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
+  vm_size               = "Standard_E2ps_v5"
+  enable_node_public_ip = var.enable_node_public_ip
+  node_count            = var.min_node_count
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
+  priority          = "Spot"
+  eviction_policy   = "Delete"
+  spot_max_price    = 0.05
+}
+resource "azurerm_kubernetes_cluster_node_pool" "e2pds5" {
+  name                  = "e2pds5"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.agones.id
+  vm_size               = "Standard_E2pds_v5"
+  enable_node_public_ip = var.enable_node_public_ip
+  node_count            = var.min_node_count
+  max_count             = var.max_node_count
+  enable_auto_scaling   = true
+  priority          = "Spot"
+  eviction_policy   = "Delete"
+  spot_max_price    = 0.05
+}
+
+
 */
