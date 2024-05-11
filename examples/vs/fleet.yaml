@@ -3,7 +3,7 @@ kind: Fleet
 metadata:
   name: vs-game-server-fleet
 spec:
-  replicas: 2
+  replicas: 1
   scheduling: Packed
 
   # Not sure which strategy to use: https://agones.dev/site/docs/guides/fleet-updates/
@@ -27,7 +27,7 @@ spec:
 
           containers:
             - name: vs-game-server
-              image: poutypouchgamesacrcentralus.azurecr.io/vs-server:0.1.8
+              image: poutypouchgamesacrcentralus.azurecr.io/vs-server:0.1.9
               resources:
                 requests:
                   memory: 1000Mi

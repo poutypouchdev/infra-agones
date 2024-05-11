@@ -34,7 +34,7 @@ resource "azurerm_kubernetes_cluster" "agones" {
   default_node_pool {
     name                  = "default"
     node_count            = 1
-    vm_size               = "Standard_D2s_v4"
+    vm_size               = "Standard_D4s_v4"
     enable_auto_scaling   = false
     enable_node_public_ip = var.enable_node_public_ip
   }
