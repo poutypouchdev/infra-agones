@@ -27,11 +27,11 @@ spec:
 
           containers:
             - name: vs-game-server
-              image: poutypouchgamesacrcentralus.azurecr.io/vs-server:0.1.12
+              image: poutypouchgamesacrcentralus.azurecr.io/vs-server:0.1.13
               resources:
                 requests:
                   memory: 1000Mi
-                  cpu: 970m # Side car requests 30m with no limit.
+                  cpu: 950m # Side car requests 30m with no limit.
                 limits:
                   memory: 2000Mi
                   cpu: 1000m
