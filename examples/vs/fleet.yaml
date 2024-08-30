@@ -31,7 +31,7 @@ spec:
               resources:
                 requests:
                   memory: 1000Mi
-                  cpu: 900m # Side car requests 30m with no limit and other azure bullshit taking space.
+                  cpu: 970m # Side car requests 30m with no limit.
                 limits:
                   memory: 2000Mi
                   cpu: 1000m
